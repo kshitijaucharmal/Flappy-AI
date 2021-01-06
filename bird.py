@@ -15,15 +15,7 @@ class Bird:
 		pass
 
 	def reset(self, ds, color, x, y, size=20):
-		self.ds = ds
-		self.color = color
-		self.size = size
-		self.jumpForce = 0.6
-		self.x = x
-		self.y = y
-		self.accy = 0.00298
-		self.vely = 0.2 # gravity
-		self.dead = False
+		self.__init__(ds, color, x, y, size)
 		pass
 
 	def draw(self):

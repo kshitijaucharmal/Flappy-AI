@@ -16,17 +16,7 @@ class Pipe:
 		pass
 
 	def reset(self, ds, color, x, y, size=(40, 600)):
-		self.ds = ds
-		self.color = color
-		self.x = x
-		self.y = y
-		self.velx = -0.2
-		self.width = size[0]
-		self.height = size[1]
-		self.gap = 170
-		self.destroyed = False
-		self.bottom = 0
-		self.top = 0
+		self.__init__(ds, color, x, y, size)
 		pass
 
 	def hits(self, bird):
