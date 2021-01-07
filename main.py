@@ -58,22 +58,29 @@ def draw():
 	score += 1
 	pass
 
-run = True
+def main():
+	run = True
 
-setup()
-while run:
-	ds.fill(BLACK)
+	setup()
+	while run:
+		ds.fill(BLACK)
 
-	draw()
+		draw()
 
-	for event in pygame.event.get():
-		if event.type == QUIT:
-			run = False
-		if event.type == KEYDOWN:
-			if event.key == K_w:
-				bird.jump()
-	pygame.display.update()
-	clock.tick(FPS)
- 
-pygame.quit()
-exit()
+		for event in pygame.event.get():
+			if event.type == QUIT:
+				run = False
+			if event.type == KEYDOWN:
+				if event.key == K_w:
+					bird.jump()
+		pygame.display.update()
+		clock.tick(FPS)
+
+	pygame.quit()
+	exit()
+
+if __name__ == '__main__':
+	main()
+else:
+	pygame.quit()
+	exit()
