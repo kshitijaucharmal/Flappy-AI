@@ -20,7 +20,7 @@ ds = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Flappy")
 clock = pygame.time.Clock()
 
-bird = Bird(ds, WHITE, int(WIDTH/2), int(HEIGHT/4))
+bird = Bird(ds, WHITE, int(WIDTH/3), int(HEIGHT/4))
 pipes = []
 
 def setup():
@@ -32,7 +32,7 @@ def reset():
 	global score
 	print(f"Total Score {score}")
 	score = 0
-	bird.reset(ds, WHITE, int(WIDTH/2), int(HEIGHT/4))
+	bird.reset(ds, WHITE, int(WIDTH/3), int(HEIGHT/4))
 	pipes[0].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4), int(HEIGHT/2))
 	pipes[1].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(40, HEIGHT-40))
 	# print("You Lose")
