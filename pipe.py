@@ -19,17 +19,17 @@ class Pipe:
 		self.__init__(ds, color, x, y, size)
 		pass
 
-	def hits(self, bird):
-		if(bird.y - bird.size < self.top or bird.y + bird.size > self.bottom):
-			if(bird.x - bird.size < self.x + self.width and bird.x + bird.size > self.x):
+	def hits(self, brd):
+		if(brd.y - brd.size < self.top or brd.y + brd.size > self.bottom):
+			if(brd.x - brd.size < self.x + self.width and brd.x + brd.size > self.x):
 				self.color = (255, 0, 0)
 				return True
 			else:
-				self.color = (255, 255, 255)
+				self.color = (0, 255, 0)
 				return False
 
 		else:
-			self.color = (255, 255, 255)
+			self.color = (0, 255, 0)
 			return False
 
 	def draw(self):
@@ -40,8 +40,8 @@ class Pipe:
 		self.bottom = y2
 		self.top = y2 - self.gap
 
-		pygame.draw.rect(self.ds, self.color, (x1, y1, self.width, self.height))
-		pygame.draw.rect(self.ds, self.color, (x2, y2, self.width, self.height))
+		pygame.draw.rect(self.ds, self.color, (x1, y1, self.width, self.height), 1)
+		pygame.draw.rect(self.ds, self.color, (x2, y2, self.width, self.height), 1)
 
 	def update(self):
 		self.x += self.velx

@@ -14,7 +14,7 @@ score = 0
 MAX_POP = 50
 
 # colors  r    g    b
-WHITE =  (255, 255, 255)
+WHITE =  (0,   255, 0  )
 BLACK =  (0,   0,   0  )
 RED =    (255, 0,   0  )
 
@@ -23,12 +23,12 @@ pygame.display.set_caption("Flappy")
 clock = pygame.time.Clock()
 
 birds = []
-bird = Bird(ds, WHITE, int(WIDTH/3), int(HEIGHT/4))
+bird = Bird(ds, RED, int(WIDTH/3), int(HEIGHT/4))
 pipes = []
 
 def setup():
 	for i in range(MAX_POP):
-		birds.append(Bird(ds, WHITE, int(WIDTH/3), int(HEIGHT/4)))
+		birds.append(Bird(ds, RED, int(WIDTH/3), int(HEIGHT/4)))
 	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4), int(HEIGHT/2)))
 	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(0, HEIGHT)))
 	pass
@@ -38,6 +38,8 @@ def reset():
 	# print(f"Total Score {score}")
 	# score = 0
 	# bird.reset(ds, WHITE, int(WIDTH/3), int(HEIGHT/4))
+	for bird in birds:
+		bird.reset(ds, RED, int(WIDTH/3), int(HEIGHT/4))
 	pipes[0].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4), int(HEIGHT/2))
 	pipes[1].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(40, HEIGHT-40))
 	# print("You Lose")
@@ -45,9 +47,11 @@ def reset():
 
 def all_dead():
 	for bird in birds:
-		if not bird.dead:
+		if bird.dead:
+			continue
+		else:
 			return False
-		return True
+	return True
 
 def draw():
 	global score
@@ -57,16 +61,20 @@ def draw():
 		else:
 			pipes[i] = Pipe(ds, WHITE, int(3 * WIDTH/4) + PIPE_GAP, random.randint(40, HEIGHT-40))
 
+		for b in birds:
+			if(pipes[i].hits(b)):
+				b.dead = True
 		# if(pipes[i].hits(bird)):
 		# 	reset()
 
 	if not all_dead():
 		for bird in birds:
-			bird.update()
-			bird.draw()
+			if not bird.dead:
+				bird.update()
+				bird.draw()
 	else:
-		print("Dead")
-		# reset()
+		print("All Dead")
+		reset()
 
 	score += 1
 	pass

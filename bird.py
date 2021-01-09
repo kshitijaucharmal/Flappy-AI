@@ -1,11 +1,13 @@
 import pygame
 import numpy as np
 from nn import NeuralNet
+import random as rd
 
 class Bird:
 	def __init__(self, ds, color, x, y, size=20):
 		self.ds = ds
 		self.color = color
+		self.color = (rd.randint(0, 255), rd.randint(0, 255), rd.randint(0, 255))
 		self.size = size
 		self.jumpForce = 0.6
 		self.x = x
@@ -21,7 +23,7 @@ class Bird:
 		pass
 
 	def draw(self):
-		pygame.draw.circle(self.ds, self.color, (self.x, self.y), self.size)
+		pygame.draw.circle(self.ds, self.color, (self.x, self.y), self.size, 3)
 
 	def update(self):
 		if self.y > 600 or self.y < 0:
@@ -34,7 +36,7 @@ class Bird:
 		inputs = np.random.rand(4)
 
 		output = self.brain.query(inputs).T[0][0]
-		if(output < 0.5):
+		if(np.random.random() < 0.005):
 			self.jump()
 
 	def jump(self):
