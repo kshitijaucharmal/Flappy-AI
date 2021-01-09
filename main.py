@@ -76,8 +76,7 @@ def main():
 		pygame.display.update()
 		clock.tick(FPS)
 
-	pygame.quit()
-	exit()
+	return
 
 if __name__ == '__main__':
 	main()
