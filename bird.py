@@ -1,5 +1,6 @@
 import pygame
 import numpy as np
+from nn import NeuralNet
 
 class Bird:
 	def __init__(self, ds, color, x, y, size=20):
@@ -12,6 +13,7 @@ class Bird:
 		self.accy = 0.00298
 		self.vely = 0.2 # gravity
 		self.dead = False
+		self.brain = NeuralNet(4, 4, 1, 0.3);
 		pass
 
 	def reset(self, ds, color, x, y, size=20):
@@ -28,6 +30,12 @@ class Bird:
 			return
 		self.vely += self.accy
 		self.y += self.vely
+
+		inputs = np.random.rand(4)
+
+		output = self.brain.query(inputs).T[0][0]
+		if(output < 0.5):
+			self.jump()
 
 	def jump(self):
 		self.vely = -1 * self.jumpForce
