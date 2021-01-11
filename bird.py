@@ -33,10 +33,25 @@ class Bird:
 		self.vely += self.accy
 		self.y += self.vely
 
-		inputs = np.random.rand(4)
+	def think(self, pipes):
+
+		# Find the closest pipe
+		closest = None
+		closestD = 1000000
+		for i in range(len(pipes)):
+			d = pipes[i].x - self.x
+			if d < closestD and d > 0:
+				closest = pipes[i]
+				closestD = d
+
+		inputs = []
+		inputs.append(self.y / 600)
+		inputs.append(closest.top / 600)
+		inputs.append(closest.bottom / 600)
+		inputs.append(closest.x / 350)
 
 		output = self.brain.query(inputs).T[0][0]
-		if(np.random.random() < 0.005):
+		if(output < 0.5):
 			self.jump()
 
 	def jump(self):

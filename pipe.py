@@ -9,7 +9,7 @@ class Pipe:
 		self.velx = -0.2
 		self.width = size[0]
 		self.height = size[1]
-		self.gap = 200
+		self.gap = 150
 		self.destroyed = False
 		self.bottom = 0
 		self.top = 0

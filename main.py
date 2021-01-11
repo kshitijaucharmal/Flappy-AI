@@ -12,6 +12,7 @@ PIPE_GAP = 300
 START_TIME = 500
 score = 0
 MAX_POP = 50
+DIFF = 100
 
 # colors  r    g    b
 WHITE =  (0,   255, 0  )
@@ -29,20 +30,15 @@ pipes = []
 def setup():
 	for i in range(MAX_POP):
 		birds.append(Bird(ds, RED, int(WIDTH/3), int(HEIGHT/4)))
-	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4), int(HEIGHT/2)))
-	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(0, HEIGHT)))
+	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4), random.randint(DIFF, HEIGHT-DIFF)))
+	pipes.append(Pipe(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(DIFF, HEIGHT-DIFF)))
 	pass
 
 def reset():
-	# global score
-	# print(f"Total Score {score}")
-	# score = 0
-	# bird.reset(ds, WHITE, int(WIDTH/3), int(HEIGHT/4))
 	for bird in birds:
 		bird.reset(ds, RED, int(WIDTH/3), int(HEIGHT/4))
-	pipes[0].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4), int(HEIGHT/2))
-	pipes[1].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(40, HEIGHT-40))
-	# print("You Lose")
+	pipes[0].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4), random.randint(DIFF, HEIGHT-DIFF))
+	pipes[1].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(DIFF, HEIGHT-DIFF))
 	pass
 
 def all_dead():
@@ -54,29 +50,28 @@ def all_dead():
 	return True
 
 def draw():
-	global score
 	for i in range(len(pipes)):
 		if not pipes[i].destroyed:
 			pipes[i].update()
 		else:
-			pipes[i] = Pipe(ds, WHITE, int(3 * WIDTH/4) + PIPE_GAP, random.randint(40, HEIGHT-40))
+			pipes[i] = Pipe(ds, WHITE, int(3 * WIDTH/4) + PIPE_GAP, random.randint(DIFF, HEIGHT-DIFF))
 
 		for b in birds:
-			if(pipes[i].hits(b)):
-				b.dead = True
+			if not b.dead:
+				if(pipes[i].hits(b)):
+					b.dead = True
 		# if(pipes[i].hits(bird)):
 		# 	reset()
 
 	if not all_dead():
 		for bird in birds:
 			if not bird.dead:
+				bird.think(pipes)
 				bird.update()
 				bird.draw()
 	else:
 		print("All Dead")
 		reset()
-
-	score += 1
 	pass
 
 def main():
@@ -92,10 +87,10 @@ def main():
 			if event.type == QUIT:
 				run = False
 
-			# Heuristrics
+			#Heuristricsw
 			# if event.type == KEYDOWN:
 			# 	if event.key == K_w:
-			# 		bird.jump()
+			# 		birds[0].jump()
 		pygame.display.update()
 		clock.tick(FPS)
 
