@@ -4,15 +4,19 @@ from bird import Bird
 from pipe import Pipe
 from nn import NeuralNet
 import random
+import numpy as np
 
 WIDTH = 350
 HEIGHT = 600
 FPS = 600
 PIPE_GAP = 300
 START_TIME = 500
-score = 0
 MAX_POP = 50
 DIFF = 100
+
+fitness_values = []
+generation = 0
+print("Generation 0 started")
 
 # colors  r    g    b
 WHITE =  (0,   255, 0  )
@@ -35,8 +39,16 @@ def setup():
 	pass
 
 def reset():
+	global fitness_values
 	for bird in birds:
-		bird.reset(ds, RED, int(WIDTH/3), int(HEIGHT/4))
+		fitness_values.append(bird.score)
+		bird.reset(ds, RED, int(WIDTH/3), int(HEIGHT/4), brain=bird.brain)
+	# print(f"Average Score : {np.sum(fitness_values)/len(fitness_values)}")
+	fitness_values.sort()
+
+	
+
+	fitness_values = []
 	pipes[0].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4), random.randint(DIFF, HEIGHT-DIFF))
 	pipes[1].reset(ds, WHITE, START_TIME + int(3 * WIDTH/4) + PIPE_GAP, random.randint(DIFF, HEIGHT-DIFF))
 	pass
@@ -70,7 +82,10 @@ def draw():
 				bird.update()
 				bird.draw()
 	else:
+		global generation
 		print("All Dead")
+		generation += 1
+		print(f"Generation {generation} started")
 		reset()
 	pass
 

@@ -16,10 +16,12 @@ class Bird:
 		self.vely = 0.2 # gravity
 		self.dead = False
 		self.brain = NeuralNet(4, 4, 1, 0.3);
+		self.score = 0
 		pass
 
-	def reset(self, ds, color, x, y, size=20):
+	def reset(self, ds, color, x, y, size=20, brain=None):
 		self.__init__(ds, color, x, y, size)
+		self.brain = brain
 		pass
 
 	def draw(self):
@@ -32,6 +34,7 @@ class Bird:
 			return
 		self.vely += self.accy
 		self.y += self.vely
+		self.score += 1
 
 	def think(self, pipes):
 
