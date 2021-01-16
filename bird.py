@@ -40,4 +40,3 @@ class Bird:
 	def jump(self):
 		self.vely = -1 * self.jumpForce
 
-	pass
